@@ -35,7 +35,7 @@ Deploy Cluster
 <a href="https://transmogrify.azurewebsites.net/sql-alwayson/azuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
-<hr>
+<br>
 Deploy Database : 
 <a href="https://transmogrify.azurewebsites.net/sql-alwayson/adddbtoag.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
