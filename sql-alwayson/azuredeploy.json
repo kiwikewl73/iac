@@ -8,13 +8,13 @@
     "nodeIpAddresses": {
       "type": "array",
       "defaultValue": [
-        "10.0.1.10",
-        "10.0.1.11"
+        "10.2.0.10",
+        "10.2.0.11"
       ]
     },
     "clusterIpAddress": {
       "type": "string",
-      "defaultValue": "10.0.1.30"
+      "defaultValue": "10.2.0.30"
     },
     "adminUsername": {
       "type": "string",
@@ -25,7 +25,7 @@
     },
     "domainName": {
       "type": "string",
-      "defaultValue": "devnet.contoso.us"
+      "defaultValue": "nab2.com"
     },
     "sqlVmSize": {
       "type": "string",
@@ -310,7 +310,7 @@
         "settings": {
           "Name": "[parameters('domainName')]",
           "OUPath": "",
-          "User": "[concat(parameters('domainName'), '\\', parameters('adminUserName'))]",
+          "User": "[concat('nab2', '\\', parameters('adminUserName'))]",
           "Restart": "true",
           "Options": "3"
         },
