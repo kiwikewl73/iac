@@ -36,6 +36,6 @@ Deploy
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-<a href="https://transmogrify.azurewebsites.net/sql-alwayson/azuredeploy.json?environment=gov" target="_blank">
-	<img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.png"
+<a href="https://transmogrify.azurewebsites.net/sql-alwayson/adddbtoag.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
