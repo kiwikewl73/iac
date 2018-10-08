@@ -5,6 +5,36 @@
     "subnetId": {
       "type": "string"
     },
+    "cloudWitnessLocation": {
+      "type": "string",
+       "allowedValues": [
+        "Australia Central", 
+         "Australia Central 2", 
+         "Australia East", 
+         "Australia Southeast"
+      ],
+      "defaultValue": "Australia East"
+    },
+    "primaryLocation": {
+      "type": "string",
+       "allowedValues": [
+        "Australia Central", 
+         "Australia Central 2", 
+         "Australia East", 
+         "Australia Southeast"
+      ],
+      "defaultValue": "Australia East"
+    },
+    "secondaryLocation": {
+      "type": "string",
+       "allowedValues": [
+        "Australia Central", 
+         "Australia Central 2", 
+         "Australia East", 
+         "Australia Southeast"
+      ],
+      "defaultValue": "Australia Southeast"
+    },
     "nodeIpAddresses": {
       "type": "array",
       "defaultValue": [
@@ -99,7 +129,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('cloudWitnessStorageAccountName')]",
       "apiVersion": "2016-01-01",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('cloudWitnessLocation')]",
       "sku": {
         "name": "Standard_LRS"
       },
