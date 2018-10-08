@@ -2,7 +2,10 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "subnetId": {
+    "subnetIdPrimary": {
+      "type": "string"
+    },
+    "subnetIdSecondary": {
       "type": "string"
     },
     "cloudWitnessLocation": {
@@ -163,7 +166,7 @@
               "privateIPAddress": "[parameters('clusterIpAddress')]",
               "privateIPAllocationMethod": "Static",
               "subnet": {
-                "id": "[parameters('subnetId')]"
+                "id": "[parameters('subnetIdPrimary')]"
               }
             }
           }
@@ -233,8 +236,8 @@
           "vmSize": {
             "value": "[parameters('sqlVmSize')]"
           },
-          "subnetId": {
-            "value": "[parameters('subnetId')]"
+          "subnetIdPrimary": {
+            "value": "[parameters('subnetIdPrimary')]"
           },
           "fixedPrivateIp": {
             "value": "[parameters('nodeIpAddresses')[copyIndex()]]"
