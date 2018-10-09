@@ -235,7 +235,7 @@
       }
     },
     {
-      "name": "[concat('SqlVmDeploy', copyindex())]",
+      "name": "[concat('SqlVmDeploy0', copyindex())]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "dependsOn": [
@@ -293,7 +293,7 @@
       }
     },
     {
-      "name": "[concat('SqlVmDeploy', copyindex())]",
+      "name": "[concat('SqlVmDeploy1', copyindex())]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "dependsOn": [
