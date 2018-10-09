@@ -108,7 +108,8 @@
     }
   },
   "variables": {
-    "diagStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'sqlvmdiag')]",
+    "diagStorageAccountNameP": "[concat(uniquestring(resourceGroup().id), 'sqlvmdiagp')]",
+    "diagStorageAccountNameS": "[concat(uniquestring(resourceGroup().id), 'sqlvmdiags')]",
     "cloudWitnessStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'sqlw')]",
     "HASetNameP": "SqlHASetP",
     "HASetNameS": "SqlHASetS",
@@ -129,9 +130,20 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('diagStorageAccountName')]",
+      "name": "[variables('diagStorageAccountNameP')]",
       "apiVersion": "2016-01-01",
       "location": "[parameters('primaryLocation')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage",
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('diagStorageAccountNameS')]",
+      "apiVersion": "2016-01-01",
+      "location": "[parameters('secondaryLocation')]",
       "sku": {
         "name": "Standard_LRS"
       },
@@ -240,7 +252,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountNameP'))]",
         "[resourceId('Microsoft.Network/loadBalancers', variables('LBName'))]"
       ],
       "copy": {
@@ -273,7 +285,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "diagStorageAccountId": {
-            "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountName'))]"
+            "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountNameP'))]"
           },
           "availabilitySetId": {
             "value": "[resourceId('Microsoft.Compute/availabilitySets', variables('HASetNameP'))]"
@@ -298,7 +310,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountNameS'))]",
         "[resourceId('Microsoft.Network/loadBalancers', variables('LBName'))]"
       ],
       "copy": {
@@ -331,7 +343,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "diagStorageAccountId": {
-            "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountName'))]"
+            "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountNameS'))]"
           },
           "availabilitySetId": {
             "value": "[resourceId('Microsoft.Compute/availabilitySets', variables('HASetNameS'))]"
@@ -354,7 +366,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('SqlVmPrefixP'), copyindex(), '/SqlIaasExtension')]",
+      "name": "[concat('Primary',variables('SqlVmPrefixP'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('primaryLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeployP', copyindex()))]"
@@ -408,7 +420,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('SqlVmPrefixS'), copyindex(), '/SqlIaasExtension')]",
+      "name": "[concat('Secondary',variables('SqlVmPrefixS'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('secondaryLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeployS', copyindex()))]"
