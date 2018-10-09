@@ -113,7 +113,7 @@
     "HASetNameP": "SqlHASetP",
     "HASetNameS": "SqlHASetS",
     "SqlVmPrefixP": "SQLP",
-    "SqlVmPrefixS": "SQLP",
+    "SqlVmPrefixS": "SQLS",
     "baseUri": "[deployment().properties.templateLink.uri]",
     "SQLPrepareModuleURL": "[uri(variables('baseUri'), 'DSC/PrepareSQLServer.ps1.zip')]",
     "SQLPrepareFunction": "PrepareSQLServer.ps1\\SQLServerPrepareDsc",
@@ -236,7 +236,7 @@
       }
     },
     {
-      "name": "[concat('SqlVmDeploy0', copyindex())]",
+      "name": "[concat('SqlVmDeployP', copyindex())]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "dependsOn": [
@@ -294,7 +294,7 @@
       }
     },
     {
-      "name": "[concat('SqlVmDeploy1', copyindex())]",
+      "name": "[concat('SqlVmDeployS', copyindex())]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "dependsOn": [
@@ -357,7 +357,7 @@
       "name": "[concat('Primary',variables('SqlVmPrefixP'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('primaryLocation')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeploy0', copyindex()))]"
+        "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeployP', copyindex()))]"
       ],
       "copy": {
         "name": "sqliaasextensionsloop",
@@ -411,7 +411,7 @@
       "name": "[concat('Secondary',variables('SqlVmPrefixS'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('secondaryLocation')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeploy1', copyindex()))]"
+        "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeployS', copyindex()))]"
       ],
       "copy": {
         "name": "sqliaasextensionsloop",
