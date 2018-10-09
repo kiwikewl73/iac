@@ -353,10 +353,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('SqlVmPrefix'), copyindex(), '/SqlIaasExtension')]",
+      "name": "[concat('Primary',variables('SqlVmPrefix'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('primaryLocation')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeploy', copyindex()))]"
+        "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeploy0', copyindex()))]"
       ],
       "copy": {
         "name": "sqliaasextensionsloop",
@@ -407,10 +407,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('SqlVmPrefix'), copyindex(), '/SqlIaasExtension')]",
+      "name": "[concat('Seondary',variables('SqlVmPrefix'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('secondaryLocation')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeploy', copyindex()))]"
+        "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeploy1', copyindex()))]"
       ],
       "copy": {
         "name": "sqliaasextensionsloop",
@@ -461,7 +461,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('SqlVmPrefix'), copyindex(), '/joindomain')]",
+      "name": "[concat('Primary',variables('SqlVmPrefix'), copyindex(), '/joindomain')]",
       "location": "[parameters('primaryLocation')]",
       "dependsOn": [
         "[concat(resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefix'), copyindex())), '/extensions/SqlIaasExtension')]"
@@ -490,7 +490,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('SqlVmPrefix'), copyindex(), '/joindomain')]",
+      "name": "[concat('Secondary',variables('SqlVmPrefix'), copyindex(), '/joindomain')]",
       "location": "[parameters('secondaryLocation')]",
       "dependsOn": [
         "[concat(resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefix'), copyindex())), '/extensions/SqlIaasExtension')]"
@@ -518,7 +518,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('SqlVmPrefix'), copyindex(), '/configuresql', copyindex())]",
+      "name": "[concat('Primary',variables('SqlVmPrefix'), copyindex(), '/configuresql', copyindex())]",
       "dependsOn": [
         "[concat(resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefix'), copyindex())), '/extensions/joindomain')]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountName'))]"
@@ -561,7 +561,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('SqlVmPrefix'), copyindex(), '/configuresql', copyindex())]",
+      "name": "[concat('Secondary',variables('SqlVmPrefix'), copyindex(), '/configuresql', copyindex())]",
       "dependsOn": [
         "[concat(resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefix'), copyindex())), '/extensions/joindomain')]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountName'))]"
