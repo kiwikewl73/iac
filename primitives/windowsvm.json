@@ -64,6 +64,10 @@
         "secrets": {
             "type": "array",
             "defaultValue": []
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
@@ -113,7 +117,7 @@
             "name": "[variables('genDiagStorageAccountName')]",
             "apiVersion": "2016-01-01",
             "condition": "[equals(parameters('diagStorageAccountId'),'null')]",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "sku": {
                 "name": "Standard_LRS"
             },
@@ -123,7 +127,7 @@
         {
             "name": "[variables('genVnetName')]",
             "type": "Microsoft.Network/virtualNetworks",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "apiVersion": "2016-03-30",
             "condition": "[equals(parameters('subnetId'),'null')]",
             "dependsOn": [],
@@ -146,7 +150,7 @@
         {
             "name": "[variables('nicName')]",
             "type": "Microsoft.Network/networkInterfaces",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "apiVersion": "2016-03-30",
             "dependsOn":  [
                 "[variables('genVnetid')]"
@@ -195,7 +199,7 @@
             "apiVersion": "2017-03-30",
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[parameters('vmName')]",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]",
                 "[variables('genStorageAccountId')]"
