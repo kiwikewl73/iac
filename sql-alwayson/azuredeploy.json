@@ -92,7 +92,7 @@
         "Standard_DS14_v2",
         "Standard_DS15_v2"
       ],
-      "defaultValue": "Standard_DS2_v2"
+      "defaultValue": "Standard_DS4_v2"
     },
     "sqlVmImagePublisher": {
       "type": "string",
@@ -112,7 +112,8 @@
     "cloudWitnessStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'sqlw')]",
     "HASetNameP": "SqlHASetP",
     "HASetNameS": "SqlHASetS",
-    "SqlVmPrefix": "SQL",
+    "SqlVmPrefixP": "SQLP",
+    "SqlVmPrefixS": "SQLP",
     "baseUri": "[deployment().properties.templateLink.uri]",
     "SQLPrepareModuleURL": "[uri(variables('baseUri'), 'DSC/PrepareSQLServer.ps1.zip')]",
     "SQLPrepareFunction": "PrepareSQLServer.ps1\\SQLServerPrepareDsc",
@@ -254,7 +255,7 @@
         },
         "parameters": {
           "vmName": {
-            "value": "[concat(variables('SqlVmPrefix'), copyindex())]"
+            "value": "[concat(variables('SqlVmPrefixP'), copyindex())]"
           },
           "vmSize": {
             "value": "[parameters('sqlVmSize')]"
@@ -312,7 +313,7 @@
         },
         "parameters": {
           "vmName": {
-            "value": "[concat(variables('SqlVmPrefix'), copyindex())]"
+            "value": "[concat(variables('SqlVmPrefixS'), copyindex())]"
           },
           "vmSize": {
             "value": "[parameters('sqlVmSize')]"
@@ -353,7 +354,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat('Primary',variables('SqlVmPrefix'), copyindex(), '/SqlIaasExtension')]",
+      "name": "[concat('Primary',variables('SqlVmPrefixP'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('primaryLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeploy0', copyindex()))]"
@@ -407,7 +408,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat('Secondary',variables('SqlVmPrefix'), copyindex(), '/SqlIaasExtension')]",
+      "name": "[concat('Secondary',variables('SqlVmPrefixS'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('secondaryLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeploy1', copyindex()))]"
