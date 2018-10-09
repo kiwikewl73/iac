@@ -128,15 +128,15 @@
     "LBBENameP": "[concat(variables('LBNameP'),'BE')]",
     "LBFENameP": "[concat(variables('LBNameP'),'FE')]",
     "LBProbeNameP": "[concat(variables('LBNameP'),'Probe')]",
-    "sqlBEAddressPoolIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/backendAddressPools/',variables('LBBEName'))]",
-    "sqllbFEConfigIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/frontendIPConfigurations/',variables('LBFEName'))]",
-    "sqllbProbeIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/probes/',variables('LBProbeName'))]",
+    "sqlBEAddressPoolIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/backendAddressPools/',variables('LBBENameP'))]",
+    "sqllbFEConfigIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/frontendIPConfigurations/',variables('LBFENameP'))]",
+    "sqllbProbeIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/probes/',variables('LBProbeNameP'))]",
     "LBBENameS": "[concat(variables('LBNameS'),'BE')]",
     "LBFENameS": "[concat(variables('LBNameS'),'FE')]",
     "LBProbeNameS": "[concat(variables('LBNameS'),'Probe')]",
-    "sqlBEAddressPoolIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/backendAddressPools/',variables('LBBEName'))]",
-    "sqllbFEConfigIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/frontendIPConfigurations/',variables('LBFEName'))]",
-    "sqllbProbeIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/probes/',variables('LBProbeName'))]"
+    "sqlBEAddressPoolIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/backendAddressPools/',variables('LBBENameS'))]",
+    "sqllbFEConfigIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/frontendIPConfigurations/',variables('LBFENameS'))]",
+    "sqllbProbeIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/probes/',variables('LBProbeNameS'))]"
   },
   "resources": [
     {
