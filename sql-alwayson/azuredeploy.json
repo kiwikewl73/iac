@@ -301,6 +301,9 @@
           },
           "LoadBalancerBEId": {
             "value": "[variables('sqlBEAddressPoolID')]"
+          },
+          "location": {
+            "value": "[parameters('primaryLocation')]"
           }
         }
       }
@@ -359,6 +362,9 @@
           },
           "LoadBalancerBEId": {
             "value": "[variables('sqlBEAddressPoolID')]"
+          },
+          "location": {
+            "value": "[parameters('secondaryLocation')]"
           }
         }
       }
