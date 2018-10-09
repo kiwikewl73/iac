@@ -259,7 +259,7 @@
           "vmSize": {
             "value": "[parameters('sqlVmSize')]"
           },
-          "subnetIdPrimary": {
+          "subnetId": {
             "value": "[parameters('subnetIdPrimary')]"
           },
           "fixedPrivateIp": {
@@ -317,7 +317,7 @@
           "vmSize": {
             "value": "[parameters('sqlVmSize')]"
           },
-          "subnetIdPrimary": {
+          "subnetId": {
             "value": "[parameters('subnetIdSecondary')]"
           },
           "fixedPrivateIp": {
