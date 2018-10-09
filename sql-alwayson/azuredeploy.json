@@ -441,7 +441,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat('Primary',variables('SqlVmPrefixP'), copyindex(), '/SqlIaasExtension')]",
+      "name": "[concat(variables('SqlVmPrefixP'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('primaryLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeployP', copyindex()))]"
@@ -495,7 +495,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat('Secondary',variables('SqlVmPrefixS'), copyindex(), '/SqlIaasExtension')]",
+      "name": "[concat(variables('SqlVmPrefixS'), copyindex(), '/SqlIaasExtension')]",
       "location": "[parameters('secondaryLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', concat('SqlVmDeployS', copyindex()))]"
