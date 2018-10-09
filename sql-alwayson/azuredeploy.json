@@ -53,9 +53,13 @@
       ]
     },
 
-    "clusterIpAddress": {
+    "clusterIpAddressP": {
       "type": "string",
       "defaultValue": "10.2.0.30"
+    },
+    "clusterIpAddressS": {
+      "type": "string",
+      "defaultValue": "10.3.0.30"
     },
     "adminUsername": {
       "type": "string",
@@ -119,13 +123,20 @@
     "SQLPrepareModuleURL": "[uri(variables('baseUri'), 'DSC/PrepareSQLServer.ps1.zip')]",
     "SQLPrepareFunction": "PrepareSQLServer.ps1\\SQLServerPrepareDsc",
     "windowsVmTemplateURL": "[uri(variables('baseUri'),'../primitives/windowsvm.json')]",
-    "LBName": "SQLLB",
-    "LBBEName": "[concat(variables('LBName'),'BE')]",
-    "LBFEName": "[concat(variables('LBName'),'FE')]",
-    "LBProbeName": "[concat(variables('LBName'),'Probe')]",
-    "sqlBEAddressPoolID": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBName')),'/backendAddressPools/',variables('LBBEName'))]",
-    "sqllbFEConfigID": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBName')),'/frontendIPConfigurations/',variables('LBFEName'))]",
-    "sqllbProbeID": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBName')),'/probes/',variables('LBProbeName'))]"
+    "LBNameP": "SQLLBP",
+    "LBNameS": "SQLLBS",
+    "LBBENameP": "[concat(variables('LBNameP'),'BE')]",
+    "LBFENameP": "[concat(variables('LBNameP'),'FE')]",
+    "LBProbeNameP": "[concat(variables('LBNameP'),'Probe')]",
+    "sqlBEAddressPoolIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/backendAddressPools/',variables('LBBEName'))]",
+    "sqllbFEConfigIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/frontendIPConfigurations/',variables('LBFEName'))]",
+    "sqllbProbeIDP": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameP')),'/probes/',variables('LBProbeName'))]",
+    "LBBENameS": "[concat(variables('LBNameS'),'BE')]",
+    "LBFENameS": "[concat(variables('LBNameS'),'FE')]",
+    "LBProbeNameS": "[concat(variables('LBNameS'),'Probe')]",
+    "sqlBEAddressPoolIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/backendAddressPools/',variables('LBBEName'))]",
+    "sqllbFEConfigIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/frontendIPConfigurations/',variables('LBFEName'))]",
+    "sqllbProbeIDS": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('LBNameS')),'/probes/',variables('LBProbeName'))]"
   },
   "resources": [
     {
@@ -190,16 +201,16 @@
         }
       },
     {
-      "name": "[variables('LBName')]",
+      "name": "[variables('LBNameP')]",
       "type": "Microsoft.Network/loadBalancers",
       "apiVersion": "2017-10-01",
       "location": "[parameters('primaryLocation')]",
       "properties": {
         "frontendIPConfigurations": [
           {
-            "name": "[variables('LBFEName')]",
+            "name": "[variables('LBFENameP')]",
             "properties": {
-              "privateIPAddress": "[parameters('clusterIpAddress')]",
+              "privateIPAddress": "[parameters('clusterIpAddressP')]",
               "privateIPAllocationMethod": "Static",
               "subnet": {
                 "id": "[parameters('subnetIdPrimary')]"
@@ -209,7 +220,7 @@
         ],
         "backendAddressPools": [
           {
-            "name": "[variables('LBBEName')]"
+            "name": "[variables('LBBENameP')]"
           }
         ],
         "loadBalancingRules": [
@@ -217,13 +228,13 @@
             "name": "SQLLBRule",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[variables('sqllbFEConfigID')]"
+                "id": "[variables('sqllbFEConfigIDP')]"
               },
               "backendAddressPool": {
-                "id": "[variables('sqlBEAddressPoolID')]"
+                "id": "[variables('sqlBEAddressPoolIDP')]"
               },
               "probe": {
-                "id": "[variables('sqllbProbeID')]"
+                "id": "[variables('sqllbProbeIDP')]"
               },
               "frontendPort": 1433,
               "backendPort": 1433,
@@ -236,7 +247,65 @@
         ],
         "probes": [
           {
-            "name": "[variables('LBProbeName')]",
+            "name": "[variables('LBProbeNameP')]",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 59999,
+              "intervalInSeconds": 5,
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('LBNameS')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "apiVersion": "2017-10-01",
+      "location": "[parameters('secondaryLocation')]",
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "[variables('LBFENameS')]",
+            "properties": {
+              "privateIPAddress": "[parameters('clusterIpAddressS')]",
+              "privateIPAllocationMethod": "Static",
+              "subnet": {
+                "id": "[parameters('subnetIdSecondary')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "[variables('LBBENameS')]"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "SQLLBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('sqllbFEConfigIDS')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('sqlBEAddressPoolIDS')]"
+              },
+              "probe": {
+                "id": "[variables('sqllbProbeIDS')]"
+              },
+              "frontendPort": 1433,
+              "backendPort": 1433,
+              "enableFloatingIP": true,
+              "idleTimeoutInMinutes": 4,
+              "protocol": "Tcp",
+              "loadDistribution": "Default"
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "[variables('LBProbeNameS')]",
             "properties": {
               "protocol": "Tcp",
               "port": 59999,
@@ -253,7 +322,7 @@
       "apiVersion": "2017-05-10",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountNameP'))]",
-        "[resourceId('Microsoft.Network/loadBalancers', variables('LBName'))]"
+        "[resourceId('Microsoft.Network/loadBalancers', variables('LBNameP'))]"
       ],
       "copy": {
         "name": "sqlvmloop",
@@ -300,7 +369,7 @@
             "value": "[parameters('sqlVmImageSku')]"
           },
           "LoadBalancerBEId": {
-            "value": "[variables('sqlBEAddressPoolID')]"
+            "value": "[variables('sqlBEAddressPoolIDP')]"
           },
           "location": {
             "value": "[parameters('primaryLocation')]"
@@ -314,7 +383,7 @@
       "apiVersion": "2017-05-10",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountNameS'))]",
-        "[resourceId('Microsoft.Network/loadBalancers', variables('LBName'))]"
+        "[resourceId('Microsoft.Network/loadBalancers', variables('LBNameS'))]"
       ],
       "copy": {
         "name": "sqlvmloop",
@@ -361,7 +430,7 @@
             "value": "[parameters('sqlVmImageSku')]"
           },
           "LoadBalancerBEId": {
-            "value": "[variables('sqlBEAddressPoolID')]"
+            "value": "[variables('sqlBEAddressPoolIDS')]"
           },
           "location": {
             "value": "[parameters('secondaryLocation')]"
