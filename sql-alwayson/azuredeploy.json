@@ -603,6 +603,92 @@
           "Password": "[parameters('adminPassword')]"
         }
       }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('SqlVmPrefixP'), copyindex(), '/configuresql', copyindex())]",
+      "dependsOn": [
+        "[concat(resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefixP'), copyindex())), '/extensions/joindomain')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountNameP'))]"
+      ],
+      "apiVersion": "2016-03-30",
+      "copy": {
+        "name": "sqlconfigloop",
+        "count": 2,
+        "mode": "Serial",
+        "batchSize": 1
+      },
+      "location": "[parameters('primaryLocation')]",
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.21",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "modulesURL": "[variables('SQLPrepareModuleURL')]",
+          "configurationFunction": "[variables('SQLPrepareFunction')]",
+          "properties": {
+            "domainName": "[parameters('domainName')]",
+            "adminCreds": {
+              "userName": "[parameters('adminUserName')]",
+              "password": "privateSettingsRef:adminPassword"
+            },
+            "ClusterName": "SQLClusterAG",
+            "ClusterOwnerNode": "[concat(variables('SqlVmPrefixP'), '0')]",
+            "ClusterIP": "[parameters('clusterIpAddressP')]",
+            "witnessStorageBlobEndpoint": "[reference(variables('cloudWitnessStorageAccountName'), '2016-01-01').primaryEndpoints.blob]",
+            "witnessStorageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cloudWitnessStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+          }
+        },
+        "protectedSettings": {
+          "items": {
+            "adminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('SqlVmPrefixS'), copyindex(), '/configuresql', copyindex())]",
+      "dependsOn": [
+        "[concat(resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefixS'), copyindex())), '/extensions/joindomain')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('diagStorageAccountNameS'))]"
+      ],
+      "apiVersion": "2016-03-30",
+      "copy": {
+        "name": "sqlconfigloop",
+        "count": 2,
+        "mode": "Serial",
+        "batchSize": 1
+      },
+      "location": "[parameters('secondaryLocation')]",
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.21",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "modulesURL": "[variables('SQLPrepareModuleURL')]",
+          "configurationFunction": "[variables('SQLPrepareFunction')]",
+          "properties": {
+            "domainName": "[parameters('domainName')]",
+            "adminCreds": {
+              "userName": "[parameters('adminUserName')]",
+              "password": "privateSettingsRef:adminPassword"
+            },
+            "ClusterName": "SQLClusterAG",
+            "ClusterOwnerNode": "[concat(variables('SqlVmPrefixS'), '0')]",
+            "ClusterIP": "[parameters('clusterIpAddressS')]",
+            "witnessStorageBlobEndpoint": "[reference(variables('cloudWitnessStorageAccountName'), '2016-01-01').primaryEndpoints.blob]",
+            "witnessStorageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cloudWitnessStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+          }
+        },
+        "protectedSettings": {
+          "items": {
+            "adminPassword": "[parameters('adminPassword')]"
+          }
+        }
+      }
     }
   ],
   "outputs": {}
