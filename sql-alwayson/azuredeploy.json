@@ -633,7 +633,7 @@
               "userName": "[parameters('adminUserName')]",
               "password": "privateSettingsRef:adminPassword"
             },
-            "ClusterName": "SQLClusterAG",
+            "ClusterName": "SQLClusterAGP",
             "ClusterOwnerNode": "[concat(variables('SqlVmPrefixP'), '0')]",
             "ClusterIP": "[parameters('clusterIpAddressP')]",
             "witnessStorageBlobEndpoint": "[reference(variables('cloudWitnessStorageAccountName'), '2016-01-01').primaryEndpoints.blob]",
@@ -676,7 +676,7 @@
               "userName": "[parameters('adminUserName')]",
               "password": "privateSettingsRef:adminPassword"
             },
-            "ClusterName": "SQLClusterAG",
+            "ClusterName": "SQLClusterAGS",
             "ClusterOwnerNode": "[concat(variables('SqlVmPrefixS'), '0')]",
             "ClusterIP": "[parameters('clusterIpAddressS')]",
             "witnessStorageBlobEndpoint": "[reference(variables('cloudWitnessStorageAccountName'), '2016-01-01').primaryEndpoints.blob]",
