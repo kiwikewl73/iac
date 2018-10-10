@@ -578,7 +578,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat('Secondary',variables('SqlVmPrefixS'), copyindex(), '/joindomain')]",
+      "name": "[concat(variables('SqlVmPrefixS'), copyindex(), '/joindomain')]",
       "location": "[parameters('secondaryLocation')]",
       "dependsOn": [
         "[concat('Secondary',resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefixS'), copyindex())), '/extensions/SqlIaasExtension')]"
