@@ -581,7 +581,7 @@
       "name": "[concat(variables('SqlVmPrefixS'), copyindex(), '/joindomain')]",
       "location": "[parameters('secondaryLocation')]",
       "dependsOn": [
-        "[concat('Secondary',resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefixS'), copyindex())), '/extensions/SqlIaasExtension')]"
+        "[concat(resourceId('Microsoft.Compute/virtualMachines', concat(variables('SqlVmPrefixS'), copyindex())), '/extensions/SqlIaasExtension')]"
       ],
       "copy": {
         "name": "sqlvmjoinloop",
