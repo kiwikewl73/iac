@@ -14,7 +14,7 @@
         "EastUS2",
         "WestUS2
       ],
-      "defaultValue": "Australia East"
+      "defaultValue": "EastUS2"
     },
     "primaryLocation": {
       "type": "string",
@@ -22,7 +22,7 @@
         "EastUS2",
         "WestUS2
       ],
-      "defaultValue": "Australia East"
+      "defaultValue": "EastUS2"
     },
     "secondaryLocation": {
       "type": "string",
@@ -30,7 +30,7 @@
         "EastUS2",
         "WestUS2
       ],
-      "defaultValue": "Australia Southeast"
+      "defaultValue": "WestUS2"
     },
     "nodeIpAddressesPrimary": {
       "type": "array",
