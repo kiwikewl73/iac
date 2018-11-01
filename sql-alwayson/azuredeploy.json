@@ -11,72 +11,66 @@
     "cloudWitnessLocation": {
       "type": "string",
        "allowedValues": [
-        "Australia Central", 
-         "Australia Central 2", 
-         "Australia East", 
-         "Australia Southeast"
+        "EastUS2",
+        "WestUS2
       ],
       "defaultValue": "Australia East"
     },
     "primaryLocation": {
       "type": "string",
        "allowedValues": [
-        "Australia Central", 
-         "Australia Central 2", 
-         "Australia East", 
-         "Australia Southeast"
+        "EastUS2",
+        "WestUS2
       ],
       "defaultValue": "Australia East"
     },
     "secondaryLocation": {
       "type": "string",
        "allowedValues": [
-        "Australia Central", 
-         "Australia Central 2", 
-         "Australia East", 
-         "Australia Southeast"
+        "EastUS2",
+        "WestUS2
       ],
       "defaultValue": "Australia Southeast"
     },
     "nodeIpAddressesPrimary": {
       "type": "array",
       "defaultValue": [
-        "10.2.0.10",
-        "10.2.0.11"
+        "10.10.2.10",
+        "10.10.2.11"
       ]
     },
     "nodeIpAddressesSecondary": {
       "type": "array",
       "defaultValue": [
-        "10.3.0.10",
-        "10.3.0.11"
+      "10.30.2.10",
+      "10.30.2.11"
       ]
     },
 
     "clusterIpAddressP": {
       "type": "string",
-      "defaultValue": "10.2.0.30"
+      "defaultValue": "10.10.2.30"
     },
     "clusterIpAddressS": {
       "type": "string",
-      "defaultValue": "10.3.0.30"
+      "defaultValue": "10.30.2.30"
     },
     "adminUsername": {
       "type": "string",
-      "defaultValue": "EnterpriseAdmin"
+      "defaultValue": "itlabsAdmin"
     },
     "adminPassword": {
       "type": "securestring"
     },
     "domainName": {
       "type": "string",
-      "defaultValue": "nab2.com"
+      "defaultValue": "itlabs.com"
     },
     "sqlVmSize": {
       "type": "string",
       "allowedValues": [
         "Standard_D1_v2",
-        "Standard_D2_v2",
+        "Standard_D2s_v3",
         "Standard_D3_v2",
         "Standard_D4_v2",
         "Standard_D5_v2",
@@ -88,15 +82,9 @@
         "Standard_DS1_v2",
         "Standard_DS2_v2",
         "Standard_DS3_v2",
-        "Standard_DS4_v2",
-        "Standard_DS5_v2",
-        "Standard_DS11_v2",
-        "Standard_DS12_v2",
-        "Standard_DS13_v2",
-        "Standard_DS14_v2",
-        "Standard_DS15_v2"
+        "Standard_DS4_v2"
       ],
-      "defaultValue": "Standard_DS4_v2"
+      "defaultValue": "Standard_D2s_v3"
     },
     "sqlVmImagePublisher": {
       "type": "string",
